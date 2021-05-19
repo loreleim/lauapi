@@ -3,7 +3,7 @@ const fs = require('fs');
 
 (async () => {
 
-  const jsonFile = "./bishop.json";
+  const jsonFile = "./uh.json";
   const theURL = 'http://www2.hawaii.edu/~eherring/hawnprop/dod-visc.htm';
 
   const browser = await puppeteer.launch();
