@@ -15,16 +15,18 @@ const fs = require('fs');
   //.evaluate is like running a console command
   let data = await page.evaluate(()=> {
     let image = document.querySelector('img').src;
-    let title = document.querySelector('title').innerText;
+    let chicken = document.querySelector('title').innerText;
     
-    return {image, title}
+    return {image, chicken}
   })
   
   //console.log(await page.content());
-  console.log(data.image)
+  //console.log(data.image)
   
   fs.writeFileSync(jsonFile, JSON.stringify(data));
   
   await browser.close();
+
+  //run 'node index.js'
 
 })();
