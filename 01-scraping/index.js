@@ -3,8 +3,8 @@ const fs = require('fs');
 
 (async () => {
 
-  const jsonFile = "./uh.json";
-  const theURL = 'http://www2.hawaii.edu/~eherring/hawnprop/dod-visc.htm';
+  const jsonFile = "./ethnobotany.json";
+  const theURL = 'http://data.bishopmuseum.org/ethnobotanydb/ethnobotany.php?b=d&ID=aalii';
 
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
@@ -14,10 +14,17 @@ const fs = require('fs');
   
   //.evaluate is like running a console command
   let data = await page.evaluate(()=> {
+    let allTitles = document.querySelector("b");
+    for(i = 0; allTitles.length > i; i++) {
+      
+    }
     let image = document.querySelector('img').src;
     let chicken = document.querySelector('title').innerText;
     
-    return {image, chicken}
+    return {
+      image, 
+      chicken
+    }
   })
   
   //console.log(await page.content());
