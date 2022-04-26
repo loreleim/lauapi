@@ -14,24 +14,33 @@ const fs = require('fs');
   
   //.evaluate is like running a console command
   let data = await page.evaluate(()=> {
-    let allTitles = document.querySelector("b");
-    for(i = 0; allTitles.length > i; i++) {
-      
+
+    //remove italics
+    let grabItalics = [...document.querySelectorAll('i')];
+
+    //titles
+    let allTitles = [...document.querySelectorAll('b')];
+    let titleArrays =  allTitles.map((div) => div.textContent.trim());
+    let descriptionArrays =  allTitles.map((div) => div.nextSibling.textContent.trim());
+    let content = [];
+
+    //loop through titles
+    for(i = 0; titleArrays.length > i; i++) {
+      if(titleArrays[i] === "Medicines") {
+        content.push(descriptionArrays[i]);
+      }
     }
+
+    return content;
+
+    //pull image
     let image = document.querySelector('img').src;
     let chicken = document.querySelector('title').innerText;
-    
-    return {
-      image, 
-      chicken
-    }
   })
   
-  //console.log(await page.content());
-  //console.log(data.image)
+  //fs.writeFileSync(jsonFile, JSON.stringify(data));
   
-  fs.writeFileSync(jsonFile, JSON.stringify(data));
-  
+  console.log(data);
   await browser.close();
 
   //run 'node index.js'
