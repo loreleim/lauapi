@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
+const { title } = require('process');
 
 (async () => {
 
@@ -15,8 +16,27 @@ const fs = require('fs');
   //.evaluate is like running a console command
   let data = await page.evaluate(()=> {
 
+    //remove all br tags
+    var brTags = document.getElementsByTagName('br');
+    while (brTags.length) {
+      brTags[0].parentNode.removeChild(brTags[0]);
+    }
+
+    //unwrap function
+    function unwrap(selector) {
+      var nodelist = document.querySelectorAll(selector);
+      nodelist.forEach(function(item, i) {
+        item.outerHTML = item.innerHTML;
+      })
+    }
+
     //remove italics
-    let grabItalics = [...document.querySelectorAll('i')];
+    unwrap('i');
+
+    //camelCase function 
+    var camelGoesMoo = function camalize(str) {
+      return str.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
+    }
 
     //titles
     let allTitles = [...document.querySelectorAll('b')];
@@ -26,25 +46,21 @@ const fs = require('fs');
 
     //loop through titles
     for(i = 0; titleArrays.length > i; i++) {
-      if(titleArrays[i] === "Medicines") {
-        content.push(descriptionArrays[i]);
-      }
+      var currentTitle = titleArrays[i];
+      currentTitle = camelGoesMoo(currentTitle);
+      var cleanedDescription = descriptionArrays[i].replace(/: /,'');
+      content.push({ [currentTitle] : cleanedDescription});
     }
 
     return content;
-
-    //pull image
-    let image = document.querySelector('img').src;
-    let chicken = document.querySelector('title').innerText;
-    let allImages = document.querySelectorAll('img');
   })
   
   //uncomment the line below when you're ready to write something
-  //fs.writeFileSync(jsonFile, JSON.stringify(data));
+  fs.writeFileSync(jsonFile, JSON.stringify(data));
   
   console.log(data);
   await browser.close();
 
-  //run 'node index.js'
+  //in your terminal run 'node index.js'
 
 })();
