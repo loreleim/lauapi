@@ -38,6 +38,7 @@ const fs = require('fs');
     let chicken = document.querySelector('title').innerText;
   })
   
+  //uncomment the line below when you're ready to write something
   //fs.writeFileSync(jsonFile, JSON.stringify(data));
   
   console.log(data);
