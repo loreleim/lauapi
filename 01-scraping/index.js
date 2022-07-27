@@ -58,7 +58,8 @@ const { title } = require('process');
   //uncomment the line below when you're ready to write something
   fs.writeFileSync(jsonFile, JSON.stringify(data));
   
-  console.log(data);
+  //uncomment the line below when you need to debug
+  //console.log(data);
   await browser.close();
 
   //in your terminal run 'node index.js'
