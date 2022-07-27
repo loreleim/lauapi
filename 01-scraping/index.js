@@ -36,6 +36,7 @@ const fs = require('fs');
     //pull image
     let image = document.querySelector('img').src;
     let chicken = document.querySelector('title').innerText;
+    let allImages = document.querySelectorAll('img');
   })
   
   //uncomment the line below when you're ready to write something
